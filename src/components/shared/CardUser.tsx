@@ -1,6 +1,6 @@
 import React from 'react';
 import { GitHubUser } from '@/types/github/index';
-import { ExternalLink, User } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 
 interface CardUserProps {
   user: GitHubUser;

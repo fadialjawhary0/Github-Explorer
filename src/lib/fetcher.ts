@@ -9,7 +9,7 @@ export const fetcher = async <T>(url: string, options?: RequestInit): Promise<T>
       ...(options?.headers as Record<string, string>),
     };
 
-    if (token && token.trim() !== '') {
+    if (token && token.trim() !== '' && !token.includes('undefined')) {
       headers.Authorization = `Bearer ${token}`;
     }
 
