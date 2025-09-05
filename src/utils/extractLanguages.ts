@@ -1,0 +1,174 @@
+export interface LanguageInfo {
+  name: string;
+  color: string;
+}
+
+// Extension to language mapping
+const EXTENSION_TO_LANGUAGE: Record<string, string> = {
+  // Web technologies
+  html: 'HTML',
+  css: 'CSS',
+  js: 'JavaScript',
+  jsx: 'React JSX',
+  ts: 'TypeScript',
+  tsx: 'React TSX',
+  vue: 'Vue',
+  svelte: 'Svelte',
+  php: 'PHP',
+
+  // Programming languages
+  py: 'Python',
+  java: 'Java',
+  cpp: 'C++',
+  c: 'C',
+  cs: 'C#',
+  rb: 'Ruby',
+  go: 'Go',
+  rs: 'Rust',
+  swift: 'Swift',
+  kt: 'Kotlin',
+  scala: 'Scala',
+  r: 'R',
+  dart: 'Dart',
+  elixir: 'Elixir',
+  clj: 'Clojure',
+  hs: 'Haskell',
+  ml: 'OCaml',
+  f90: 'Fortran',
+  pas: 'Pascal',
+
+  // Scripting languages
+  sh: 'Shell',
+  bash: 'Bash',
+  zsh: 'Zsh',
+  ps1: 'PowerShell',
+  bat: 'Batch',
+  lua: 'Lua',
+  pl: 'Perl',
+  tcl: 'Tcl',
+
+  // Data formats
+  json: 'JSON',
+  xml: 'XML',
+  yaml: 'YAML',
+  yml: 'YAML',
+  toml: 'TOML',
+  ini: 'INI',
+  csv: 'CSV',
+  sql: 'SQL',
+
+  // Configuration files
+  md: 'Markdown',
+  txt: 'Text',
+  cfg: 'Config',
+  conf: 'Config',
+  env: 'Environment',
+
+  // Build tools
+  gradle: 'Gradle',
+  maven: 'Maven',
+  pom: 'Maven',
+  sbt: 'SBT',
+  cmake: 'CMake',
+  makefile: 'Makefile',
+  dockerfile: 'Dockerfile',
+
+  // Package managers
+  lock: 'Lock File',
+  package: 'Package Config',
+  requirements: 'Requirements',
+  gemfile: 'Gemfile',
+  cargo: 'Cargo',
+  composer: 'Composer',
+  pubspec: 'Pubspec',
+};
+
+// Language color mapping (GitHub-style colors)
+const LANGUAGE_COLORS: Record<string, string> = {
+  HTML: '#e34c26',
+  CSS: '#563d7c',
+  JavaScript: '#c1e05b',
+  'React JSX': '#61dafb',
+  TypeScript: '#2b7489',
+  'React TSX': '#61dafb',
+  Vue: '#42b883',
+  Svelte: '#ff3e00',
+  PHP: '#4f5d95',
+  Python: '#3572A5',
+  Java: '#b07219',
+  'C++': '#f34b7d',
+  C: '#555555',
+  'C#': '#178600',
+  Ruby: '#701516',
+  Go: '#00ADD8',
+  Rust: '#dea584',
+  Swift: '#ffac45',
+  Kotlin: '#F18E33',
+  Scala: '#c22d40',
+  R: '#198ce7',
+  Dart: '#00B4AB',
+  Elixir: '#6e4a7e',
+  Clojure: '#db5855',
+  Haskell: '#5e5086',
+  OCaml: '#3be133',
+  Fortran: '#4d41b1',
+  Pascal: '#E3F171',
+  Shell: '#89e051',
+  Bash: '#89e051',
+  Zsh: '#89e051',
+  PowerShell: '#012456',
+  Batch: '#C1F12E',
+  Lua: '#000080',
+  Perl: '#0298c3',
+  Tcl: '#e4cc98',
+  JSON: '#d97706',
+  XML: '#f0f0f0',
+  YAML: '#cb171e',
+  TOML: '#9c412e',
+  INI: '#d1dbe0',
+  CSV: '#237346',
+  SQL: '#e38c00',
+  Markdown: '#2563eb',
+  Text: '#cccccc',
+  Config: '#cccccc',
+  Environment: '#cccccc',
+  Gradle: '#02303a',
+  Maven: '#C71A36',
+  SBT: '#DC322F',
+  CMake: '#064f8c',
+  Makefile: '#427819',
+  Dockerfile: '#384d54',
+  'Lock File': '#cccccc',
+  'Package Config': '#cccccc',
+  Requirements: '#cccccc',
+  Gemfile: '#701516',
+  Cargo: '#dea584',
+  Composer: '#885630',
+  Pubspec: '#00B4AB',
+};
+
+export const extractLanguages = (extensions: string[]): LanguageInfo[] => {
+  if (!extensions || extensions.length === 0) {
+    return [];
+  }
+
+  const uniqueLanguages = new Map<string, LanguageInfo>();
+
+  extensions.forEach(ext => {
+    const languageName = EXTENSION_TO_LANGUAGE[ext.toLowerCase()];
+    if (!languageName) return;
+
+    if (!uniqueLanguages.has(languageName)) {
+      uniqueLanguages.set(languageName, {
+        name: languageName,
+        color: LANGUAGE_COLORS[languageName] || '#cccccc',
+      });
+    }
+  });
+
+  return Array.from(uniqueLanguages.values()).sort((a, b) => a.name.localeCompare(b.name));
+};
+
+export const getLanguageColor = (language: string): string => {
+  return LANGUAGE_COLORS[language] || '#6f42c1';
+};
