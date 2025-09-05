@@ -61,7 +61,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch }) => {
         </div>
 
         {/* search bar + type select */}
-        <form onSubmit={handleSearch} className="flex justify-center items-center gap-4 w-full">
+        <form onSubmit={handleSearch} className="flex flex-col sm:flex-row justify-center items-center gap-4 w-full">
           <div className="relative w-full">
             <input
               ref={searchInputRef}
@@ -86,7 +86,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch }) => {
             </div>
           </div>
 
-          <Select value={searchType} onChange={handleTypeChange} className="w-40">
+          <Select value={searchType} onChange={handleTypeChange} className="w-full sm:w-40">
             {Object.values(SEARCH_TYPES)?.map(type => (
               <option key={type} value={type}>
                 {type?.charAt(0)?.toUpperCase() + type?.slice(1)}
