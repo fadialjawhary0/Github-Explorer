@@ -55,7 +55,7 @@ const CardRepo: React.FC<CardRepoProps> = ({ repository }) => {
 
   return (
     <>
-      <div className="group rounded-xl border border-border/50 bg-card p-6 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30 hover:bg-card-hover hover:-translate-y-1">
+      <div className="group rounded-xl border border-border/50 bg-card p-4 sm:p-6 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30 hover:bg-card-hover hover:-translate-y-1 w-full overflow-hidden">
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-2">
