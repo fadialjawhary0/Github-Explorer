@@ -1,15 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 
 import { Search, Github, Target } from 'lucide-react';
 import { Select } from '@/components/ui';
 import { SEARCH_TYPES, ROUTES } from '@/constants';
 import { useDebounce } from '@/hooks/useDebounce';
+import { Tooltip } from 'react-tooltip';
 
 import ThemeToggle from './ThemeToggle';
-import { Tooltip } from 'react-tooltip';
 
 interface NavbarProps {
   onSearch?: (query: string, type: typeof SEARCH_TYPES.REPOSITORIES | typeof SEARCH_TYPES.USERS, exactSearch: boolean) => void;
@@ -20,6 +20,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch }) => {
   const [searchType, setSearchType] = useState<typeof SEARCH_TYPES.REPOSITORIES | typeof SEARCH_TYPES.USERS>(SEARCH_TYPES.REPOSITORIES);
   const [exactSearch, setExactSearch] = useState<boolean>(false);
 
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const debouncedQuery = useDebounce(searchQuery, 500);
 
   const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value);
@@ -34,6 +35,10 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch }) => {
       onSearch(debouncedQuery.trim(), searchType, exactSearch);
     }
   }, [debouncedQuery, searchType, exactSearch]);
+
+  useEffect(() => {
+    if (searchInputRef.current) searchInputRef.current.focus();
+  }, []);
 
   const handleSearch = (e: React.FormEvent) => e.preventDefault();
 
@@ -59,6 +64,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch }) => {
         <form onSubmit={handleSearch} className="flex justify-center items-center gap-4 w-full">
           <div className="relative w-full">
             <input
+              ref={searchInputRef}
               className="h-10 w-full pr-3 pl-10 py-2 text-sm text-foreground placeholder:text-secondary transition-colors border rounded-md
                          focus:outline-none focus:ring-2 focus:ring-primary/20"
               type="text"
