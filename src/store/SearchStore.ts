@@ -1,5 +1,6 @@
 import { makeAutoObservable, runInAction } from 'mobx';
-import { GitHubRepository, GitHubUser, SearchParams } from '@/types/github/index';
+import { GitHubRepository, GitHubUser, SearchParams, SearchResponse } from '@/types/github/index';
+import { RepositoryFilters, DEFAULT_FILTERS } from '@/types/filters';
 import { githubService } from '@/services/githubService';
 import { DEFAULT_PER_PAGE, SEARCH_TYPES } from '@/constants';
 import { CacheManager } from '@/utils';
@@ -16,6 +17,7 @@ export class SearchStore {
   totalCount = 0;
   hasSearched = false;
   exactSearch = false;
+  filters: RepositoryFilters = DEFAULT_FILTERS;
 
   constructor() {
     makeAutoObservable(this);
@@ -32,6 +34,11 @@ export class SearchStore {
 
   setExactSearch = (exactSearch: boolean) => {
     this.exactSearch = exactSearch;
+  };
+
+  setFilters = (filters: RepositoryFilters) => {
+    this.filters = filters;
+    this.resetSearch();
   };
 
   resetSearch = () => {
@@ -102,7 +109,7 @@ export class SearchStore {
 
     try {
       if (isNewSearch && this.page === 1) {
-        const cacheKey = `${this.query.trim()}-${this.type}-${this.exactSearch}`;
+        const cacheKey = `${this.query.trim()}-${this.type}-${this.exactSearch}-${JSON.stringify(this.filters)}`;
         const cached = CacheManager.getSearchResults(cacheKey, this.type);
         if (cached) {
           runInAction(() => {
@@ -121,22 +128,25 @@ export class SearchStore {
         page: this.page,
         per_page: DEFAULT_PER_PAGE,
         exactSearch: this.exactSearch,
+        filters: this.filters,
       };
 
-      const response = await githubService.search(params);
+      let response: SearchResponse<GitHubRepository | GitHubUser>;
+      if (params?.type === SEARCH_TYPES.REPOSITORIES) response = await githubService.searchRepositories(params);
+      if (params?.type === SEARCH_TYPES.USERS) response = await githubService.searchUsers(params);
 
       runInAction(() => {
         if (isNewSearch) {
           this.results = response.items;
 
           if (this.page === 1) {
-            const cacheKey = `${this.query.trim()}-${this.type}-${this.exactSearch}`;
+            const cacheKey = `${this.query.trim()}-${this.type}-${this.exactSearch}-${JSON.stringify(this.filters)}`;
             CacheManager.setSearchResults(cacheKey, this.type, response.items, response.total_count);
           }
         } else {
           this.results.push(...response.items);
 
-          const cacheKey = `${this.query.trim()}-${this.type}-${this.exactSearch}`;
+          const cacheKey = `${this.query.trim()}-${this.type}-${this.exactSearch}-${JSON.stringify(this.filters)}`;
           const originalCached = CacheManager.getSearchResults(cacheKey, this.type);
           const firstPageResults = originalCached ? originalCached.results : this.results.slice(0, DEFAULT_PER_PAGE);
 

@@ -19,7 +19,7 @@ const SearchPage = observer(() => {
 
   useEffect(() => {
     searchStore.search();
-  }, [searchStore?.query, searchStore?.type, searchStore?.exactSearch]);
+  }, [searchStore?.query, searchStore?.type, searchStore?.exactSearch, searchStore?.filters]);
 
   const handleRetry = () => searchStore.search();
 
