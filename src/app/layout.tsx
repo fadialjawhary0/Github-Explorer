@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
 import { SEARCH_TYPES } from '@/constants';
 import { searchStore } from '@/store';
+import { Analytics } from '@vercel/analytics/next';
 
 import Navbar from '@/components/layout/Navbar';
 import { ScrollToTop } from '@/components/ui';
@@ -27,6 +28,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           {children}
           <ScrollToTop />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
