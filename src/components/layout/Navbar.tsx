@@ -9,6 +9,7 @@ import { SEARCH_TYPES, ROUTES } from '@/constants';
 import { useDebounce } from '@/hooks/useDebounce';
 
 import ThemeToggle from './ThemeToggle';
+import { Tooltip } from 'react-tooltip';
 
 interface NavbarProps {
   onSearch?: (query: string, type: typeof SEARCH_TYPES.REPOSITORIES | typeof SEARCH_TYPES.USERS, exactSearch: boolean) => void;
@@ -67,12 +68,15 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch }) => {
             />
 
             <Search className="h-4 w-4 absolute left-3 top-3 text-secondary" />
+
             <div
-              title={exactSearch ? 'Disable exact name match' : 'Enable exact name match'}
-              className="absolute right-3 top-3 cursor-pointer"
               onClick={handleExactSearch}
+              className="absolute right-3 top-3 cursor-pointer"
+              data-tooltip-id="exact-search"
+              data-tooltip-content={exactSearch ? 'Disable exact name match' : 'Enable exact name match'}
             >
               <Target className={`h-4 w-4  ${exactSearch ? 'text-green-500' : 'text-primary'}`} />
+              <Tooltip id="exact-search" place="top" className="!bg-foreground !text-background !text-xs !rounded-md !px-2 !py-1 z-100" />
             </div>
           </div>
 
