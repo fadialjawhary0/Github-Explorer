@@ -11,7 +11,7 @@ const WelcomeState: React.FC = () => {
       <p className="mb-6 text-lg text-secondary max-w-2xl">
         Search for repositories and users on GitHub. Start typing in the search bar above to discover amazing projects and developers.
       </p>
-      <div className="flex items-center gap-4 text-sm text-secondary">
+      <div className="flex flex-col sm:flex-row items-center gap-4 text-sm text-secondary">
         <div className="flex items-center gap-2">
           <Search className="h-4 w-4" />
           <span>Type to search</span>
