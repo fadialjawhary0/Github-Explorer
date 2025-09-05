@@ -57,13 +57,11 @@ select {
   background: var(--color-foreground);
 }
 
-/* Selection */
 ::selection {
   background-color: var(--color-primary);
   color: #ffffff;
 }
 
-/* Remove focus rings and borders */
 *:focus {
   outline: none !important;
   box-shadow: none !important;
