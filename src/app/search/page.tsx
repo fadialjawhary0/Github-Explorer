@@ -9,8 +9,6 @@ import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import WelcomeState from '@/components/ui/WelcomeState';
 import SearchResultsHeader from '@/components/search/SearchResultsHeader';
 import SearchResultsGrid from '@/components/search/SearchResultsGrid';
-import { SEARCH_TYPES } from '@/constants';
-import Navbar from '@/components/layout/Navbar';
 
 const SearchPage = observer(() => {
   const loadingRef = useInfiniteScroll({
@@ -25,16 +23,8 @@ const SearchPage = observer(() => {
 
   const handleRetry = () => searchStore.search();
 
-  const handleSearch = (query: string, type: typeof SEARCH_TYPES.REPOSITORIES | typeof SEARCH_TYPES.USERS, exactSearch: boolean) => {
-    searchStore.setQuery(query);
-    searchStore.setType(type);
-    searchStore.setExactSearch(exactSearch);
-  };
-
   return (
     <div className="bg-background">
-      <Navbar onSearch={handleSearch} />
-
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {!searchStore?.hasSearched && <WelcomeState />}
 
