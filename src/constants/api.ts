@@ -3,5 +3,4 @@ export const SEARCH_ENDPOINT = '/search';
 export const REPOSITORIES_ENDPOINT = '/repositories';
 export const USERS_ENDPOINT = '/users';
 
-export const DEFAULT_PER_PAGE = 20;
-export const MAX_PER_PAGE = 100;
+export const DEFAULT_PER_PAGE = 24;

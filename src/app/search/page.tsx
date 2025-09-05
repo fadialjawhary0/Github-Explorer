@@ -32,7 +32,7 @@ const SearchPage = observer(() => {
 
         <SearchResultsGrid store={searchStore} onRetry={handleRetry} />
 
-        <div ref={loadingRef} className="h-4" />
+        <div ref={loadingRef} className="h-12" />
       </main>
     </div>
   );
