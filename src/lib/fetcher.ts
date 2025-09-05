@@ -2,13 +2,19 @@ import { ERROR_MESSAGES } from '@/constants';
 
 export const fetcher = async <T>(url: string, options?: RequestInit): Promise<T> => {
   try {
+    const token = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
+    const headers: Record<string, string> = {
+      Accept: 'application/vnd.github.v3+json',
+      'User-Agent': 'GitHub-Explorer-App',
+      ...(options?.headers as Record<string, string>),
+    };
+
+    if (token && token.trim() !== '') {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
     const response = await fetch(url, {
-      headers: {
-        Accept: 'application/vnd.github.v3+json',
-        'User-Agent': 'GitHub-Explorer-App',
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
-        ...options?.headers,
-      },
+      headers,
       ...options,
     });
 
