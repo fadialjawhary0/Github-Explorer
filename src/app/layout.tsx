@@ -6,6 +6,7 @@ import { SEARCH_TYPES } from '@/constants';
 import { searchStore } from '@/store';
 
 import Navbar from '@/components/layout/Navbar';
+import { ScrollToTop } from '@/components/ui';
 
 import './globals.css';
 
@@ -24,6 +25,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <ThemeProvider attribute="data-theme" defaultTheme="dark">
           <Navbar onSearch={handleSearch} />
           {children}
+          <ScrollToTop />
         </ThemeProvider>
       </body>
     </html>
