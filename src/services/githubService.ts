@@ -13,10 +13,16 @@ class GitHubService {
   private baseURL = API_BASE_URL;
 
   async searchRepositories(params: SearchParams): Promise<SearchResponse<GitHubRepository>> {
-    const baseQuery = encodeURIComponent(params.query);
+    let baseQuery = params?.query;
 
-    const query = params?.exactSearch ? encodeURIComponent(`"${params.query}" in:name`) : baseQuery;
-    const endpoint = `${this.baseURL}${SEARCH_ENDPOINT}/repositories?q=${query}&page=${params.page}&per_page=${params.per_page}&sort=stars&order=desc`;
+    if (params?.filters?.language) baseQuery += ` language:${params?.filters?.language}`;
+
+    const encodedQuery = params?.exactSearch ? encodeURIComponent(`"${baseQuery}" in:name`) : encodeURIComponent(baseQuery);
+
+    const sort = params.filters?.sort || 'stars';
+    const order = params.filters?.order || 'desc';
+
+    const endpoint = `${this.baseURL}${SEARCH_ENDPOINT}/repositories?q=${encodedQuery}&page=${params.page}&per_page=${params.per_page}&sort=${sort}&order=${order}`;
 
     return fetcher<SearchResponse<GitHubRepository>>(endpoint);
   }
@@ -104,14 +110,6 @@ class GitHubService {
       return null;
     }
     return filename.substring(lastDotIndex + 1).toLowerCase();
-  }
-
-  async search(params: SearchParams): Promise<SearchResponse<GitHubRepository | GitHubUser>> {
-    if (params.type === SEARCH_TYPES.REPOSITORIES) {
-      return this.searchRepositories(params);
-    } else {
-      return this.searchUsers(params);
-    }
   }
 }
 

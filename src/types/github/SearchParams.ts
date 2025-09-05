@@ -1,4 +1,5 @@
 import { SEARCH_TYPES } from '@/constants';
+import { RepositoryFilters } from '@/types/filters';
 
 export interface SearchParams {
   query: string;
@@ -6,4 +7,5 @@ export interface SearchParams {
   page: number;
   per_page: number;
   exactSearch?: boolean;
+  filters?: RepositoryFilters;
 }
