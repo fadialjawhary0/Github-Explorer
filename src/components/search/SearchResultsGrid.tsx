@@ -24,7 +24,7 @@ const SearchResultsGrid = observer<SearchResultsGridProps>(({ store, onRetry }) 
 
   return (
     <>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {store?.type === SEARCH_TYPES?.REPOSITORIES
           ? store?.repositories.map((repo: GitHubRepository) => <CardRepo key={repo?.id} repository={repo} />)
           : store?.users.map((user: GitHubUser) => <CardUser key={user.id} user={user} />)}
