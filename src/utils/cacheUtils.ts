@@ -141,6 +141,7 @@ if (typeof window !== 'undefined') {
               }
             }
           } catch (error) {
+            console.warn('Failed to parse cached item:', error);
             localStorage.removeItem(key);
           }
         }

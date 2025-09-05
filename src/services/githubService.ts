@@ -1,5 +1,5 @@
 import { SearchResponse, GitHubRepository, GitHubUser, GitHubFork, SearchParams } from '@/types/github/index';
-import { API_BASE_URL, SEARCH_ENDPOINT, SEARCH_TYPES } from '@/constants';
+import { API_BASE_URL, SEARCH_ENDPOINT } from '@/constants';
 import { fetcher } from '@/lib/fetcher';
 
 interface RepositoryContent {
@@ -98,6 +98,7 @@ class GitHubService {
           const subContents = await this.fetchRepositoryContents(owner, repo, item.path);
           await this.extractExtensionsFromContents(owner, repo, subContents, extensions, maxDepth, currentDepth + 1);
         } catch (error) {
+          console.warn(`Failed to fetch extensions from ${owner}/${repo}/${item.path}:`, error);
           continue;
         }
       }
