@@ -6,6 +6,8 @@
 
 **Watch the full demo:** [GitHub Explorer Demo](https://www.youtube.com/watch?v=5fuKVKw5qCY)
 
+**Live Demo:** [https://github-explorer-nu-one.vercel.app](https://github-explorer-nu-one.vercel.app)
+
 ## Features
 
 - **Advanced Search**: Search for repositories and users with exact match options
