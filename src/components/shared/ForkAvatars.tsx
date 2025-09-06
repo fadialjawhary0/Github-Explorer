@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { GitHubRepository } from '@/types/github/index';
 import { getForkAvatars, ForkAvatar } from '@/utils/getForkAvatars';
 import { formatDateSimple } from '@/utils/formatDate';
@@ -44,7 +45,13 @@ const ForkAvatars: React.FC<ForkAvatarsProps> = ({ repository }) => {
               data-tooltip-id={`fork-tooltip-${fork?.id}`}
               data-tooltip-content={`${fork?.username} - Forked ${formatDateSimple(fork?.createdAt)}`}
             >
-              <img src={fork?.avatarUrl} alt={fork?.username} className="h-6 w-6 rounded-full border-2 border-background object-cover" />
+              <Image
+                src={fork?.avatarUrl}
+                alt={fork?.username}
+                width={24}
+                height={24}
+                className="h-6 w-6 rounded-full border-2 border-background object-cover"
+              />
             </a>
             <Tooltip id={`fork-tooltip-${fork?.id}`} place="top" className="!bg-foreground !text-background !text-xs !rounded-md !px-2 !py-1" />
           </div>

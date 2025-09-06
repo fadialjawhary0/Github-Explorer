@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 import { GitHubRepository } from '@/types/github/index';
 import { Star, GitFork, Calendar, ExternalLink, Eye } from 'lucide-react';
@@ -109,9 +110,11 @@ const CardRepo: React.FC<CardRepoProps> = ({ repository }) => {
           {/* Owner info */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <img
+              <Image
                 src={repository?.owner?.avatar_url}
                 alt={repository?.owner?.login}
+                width={24}
+                height={24}
                 className="h-6 w-6 rounded-full ring-2 ring-border group-hover:ring-primary/50 transition-all duration-300"
               />
               <a
