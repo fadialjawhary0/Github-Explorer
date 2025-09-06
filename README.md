@@ -12,6 +12,7 @@
 
 - **Advanced Search**: Search for repositories and users with exact match options
 - **Filtering**: Filter by language, sort by stars/forks, and order results
+- **URL State Persistence**: Search filters and parameters are encoded in URL query parameters, preserving state on page refresh
 - **Responsive Design**: Optimized for all screen sizes with mobile-first approach
 - **Dark/Light Theme**: Toggle between themes for better user experience
 - **Real-time Search**: Debounced search with instant results
