@@ -10,14 +10,24 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { Tooltip } from 'react-tooltip';
 
 import ThemeToggle from './ThemeToggle';
+import { searchStore } from '@/store';
+import { useSearchParams } from 'next/navigation';
+import { decodeParams } from '@/utils/urlParams';
 
 interface NavbarProps {
   onSearch?: (query: string, type: typeof SEARCH_TYPES.REPOSITORIES | typeof SEARCH_TYPES.USERS, exactSearch: boolean) => void;
 }
 
 const Navbar: React.FC<NavbarProps> = ({ onSearch }) => {
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [searchType, setSearchType] = useState<typeof SEARCH_TYPES.REPOSITORIES | typeof SEARCH_TYPES.USERS>(SEARCH_TYPES.REPOSITORIES);
+  const searchParams = useSearchParams();
+  const encodedString = searchParams?.get('encoded');
+  const decodedParams = encodedString ? decodeParams(encodedString) : {};
+
+  const queryParam = decodedParams.query || '';
+  const typeParam = (decodedParams.type as typeof SEARCH_TYPES.REPOSITORIES | typeof SEARCH_TYPES.USERS) || SEARCH_TYPES.REPOSITORIES;
+
+  const [searchQuery, setSearchQuery] = useState<string>(queryParam);
+  const [searchType, setSearchType] = useState<typeof SEARCH_TYPES.REPOSITORIES | typeof SEARCH_TYPES.USERS>(typeParam);
   const [exactSearch, setExactSearch] = useState<boolean>(false);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -27,17 +37,23 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch }) => {
 
   const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newType = e.target.value as typeof SEARCH_TYPES.REPOSITORIES | typeof SEARCH_TYPES.USERS;
+    searchStore.setType(newType);
     setSearchType(newType);
   };
 
   useEffect(() => {
-    if (debouncedQuery.trim() && onSearch) {
-      onSearch(debouncedQuery.trim(), searchType, exactSearch);
+    if (debouncedQuery.trim()) {
+      searchStore.setQuery(debouncedQuery.trim());
+      if (onSearch) onSearch(debouncedQuery.trim(), searchType, exactSearch);
     }
   }, [debouncedQuery, searchType, exactSearch]);
 
   useEffect(() => {
-    if (searchInputRef.current) searchInputRef.current.focus();
+    if (searchInputRef.current) {
+      const input = searchInputRef.current;
+      input.focus();
+      input.setSelectionRange(input.value.length, input.value.length);
+    }
   }, []);
 
   const handleSearch = (e: React.FormEvent) => e.preventDefault();
