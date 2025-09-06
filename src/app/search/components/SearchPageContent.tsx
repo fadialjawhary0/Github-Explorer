@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 
 import { observer } from 'mobx-react-lite';
+import { reaction } from 'mobx';
 import { searchStore } from '@/store';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { useSearchURLSync } from '@/hooks/useSearchURLSync';
@@ -21,8 +22,21 @@ const SearchPageContent = observer(() => {
   });
 
   useEffect(() => {
-    searchStore.search();
-  }, [searchStore?.query, searchStore?.type, searchStore?.exactSearch, searchStore?.filters]);
+    const dispose = reaction(
+      () => ({
+        query: searchStore.query,
+        type: searchStore.type,
+        exactSearch: searchStore.exactSearch,
+        filters: searchStore.filters,
+      }),
+      () => {
+        searchStore.search();
+      },
+      { fireImmediately: true }
+    );
+
+    return dispose;
+  }, []);
 
   const shouldShowWelcome = !searchStore.hasSearched && !searchStore.query;
 

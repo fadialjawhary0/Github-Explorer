@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { reaction } from 'mobx';
 import { encodeParams, decodeParams, updateQueryParams } from '@/utils/urlParams';
 import { searchStore } from '@/store';
 import { SEARCH_TYPES } from '@/constants';
@@ -25,21 +26,30 @@ export const useSearchURLSync = () => {
       if (query) searchStore.search();
     }
     isInitialized.current = true;
-  }, []);
+  }, [searchParams]);
 
   useEffect(() => {
-    if (isInitialized.current) {
-      const { query, type, filters } = searchStore;
+    if (!isInitialized.current) return;
 
-      const encodedParams = encodeParams({
-        query,
-        type,
-        sort: filters.sort,
-        order: filters.order,
-        language: filters.language,
-      });
+    const dispose = reaction(
+      () => ({
+        query: searchStore.query,
+        type: searchStore.type,
+        filters: searchStore.filters,
+      }),
+      ({ query, type, filters }) => {
+        const encodedParams = encodeParams({
+          query,
+          type,
+          sort: filters.sort,
+          order: filters.order,
+          language: filters.language,
+        });
 
-      updateQueryParams(router, { encoded: encodedParams });
-    }
-  }, [searchStore.query, searchStore.type, searchStore.filters, searchStore.exactSearch, router]);
+        updateQueryParams(router, { encoded: encodedParams });
+      }
+    );
+
+    return dispose;
+  }, [router]);
 };

@@ -14,11 +14,7 @@ import { searchStore } from '@/store';
 import { useSearchParams } from 'next/navigation';
 import { decodeParams } from '@/utils/urlParams';
 
-interface NavbarProps {
-  onSearch?: (query: string, type: typeof SEARCH_TYPES.REPOSITORIES | typeof SEARCH_TYPES.USERS, exactSearch: boolean) => void;
-}
-
-const Navbar: React.FC<NavbarProps> = ({ onSearch }) => {
+const Navbar: React.FC = () => {
   const searchParams = useSearchParams();
   const encodedString = searchParams?.get('encoded');
   const decodedParams = encodedString ? decodeParams(encodedString) : {};
@@ -44,7 +40,8 @@ const Navbar: React.FC<NavbarProps> = ({ onSearch }) => {
   useEffect(() => {
     if (debouncedQuery.trim()) {
       searchStore.setQuery(debouncedQuery.trim());
-      if (onSearch) onSearch(debouncedQuery.trim(), searchType, exactSearch);
+      searchStore.setType(searchType);
+      searchStore.setExactSearch(exactSearch);
     }
   }, [debouncedQuery, searchType, exactSearch]);
 
