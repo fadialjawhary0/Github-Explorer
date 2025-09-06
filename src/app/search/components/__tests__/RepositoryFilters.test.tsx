@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import RepositoryFiltersComponent from '../RepositoryFilters';
 import { RepositoryFilters } from '@/types/filters';
 
-jest.mock('../../ui', () => ({
+jest.mock('@/components/ui', () => ({
   Select: ({ children, value, onChange, className, ...props }: React.SelectHTMLAttributes<HTMLSelectElement> & { children: React.ReactNode }) => (
     <select data-testid="select" value={value} onChange={onChange} className={className} {...props}>
       {children}
