@@ -10,7 +10,7 @@ jest.mock('../../skeletons/HeaderSkeleton', () => {
 });
 
 jest.mock('../RepositoryFilters', () => {
-  return function RepositoryFiltersComponent({ filters, onFiltersChange }: any) {
+  return function RepositoryFiltersComponent({ filters }: any) {
     return <div data-testid="repository-filters">Filters: {JSON.stringify(filters)}</div>;
   };
 });
