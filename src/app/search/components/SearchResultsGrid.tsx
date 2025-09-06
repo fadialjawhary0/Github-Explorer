@@ -1,20 +1,20 @@
 import { observer } from 'mobx-react-lite';
+import { SearchStore } from '@/store';
+import { GitHubRepository } from '@/types/github/index';
+import { GitHubUser } from '@/types/github/index';
+import { SEARCH_TYPES } from '@/constants';
+
 import CardRepo from '@/components/shared/CardRepo';
 import CardUser from '@/components/shared/CardUser';
 import EmptyState from '@/components/ui/EmptyState';
 import ErrorMessage from '@/components/ui/ErrorMessage';
 import PaginationEnd from '@/components/shared/PaginationEnd';
-import { SearchStore } from '@/store';
-import { GitHubRepository } from '@/types/github/index';
-import { GitHubUser } from '@/types/github/index';
-import GridSkeleton from './GridSkeleton';
-import { SEARCH_TYPES } from '@/constants';
+import GridSkeleton from '../skeletons/GridSkeleton';
 
 interface SearchResultsGridProps {
   store: typeof SearchStore;
   onRetry: () => void;
 }
-
 const SearchResultsGrid = observer<SearchResultsGridProps>(({ store, onRetry }) => {
   if (store?.loading) return <GridSkeleton count={6} type={store?.type} />;
 
