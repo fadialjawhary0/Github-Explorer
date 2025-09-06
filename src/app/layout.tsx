@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 import { Analytics } from '@vercel/analytics/next';
 
 import { ScrollToTop, Spinner } from '@/components/ui';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 import Navbar from '@/components/layout/Navbar';
 
@@ -22,11 +23,13 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider attribute="data-theme" defaultTheme="dark">
-          <Suspense fallback={navbarFallback}>
-            <Navbar />
-          </Suspense>
-          {children}
-          <ScrollToTop />
+          <ErrorBoundary>
+            <Suspense fallback={navbarFallback}>
+              <Navbar />
+            </Suspense>
+            {children}
+            <ScrollToTop />
+          </ErrorBoundary>
         </ThemeProvider>
         <Analytics />
       </body>
