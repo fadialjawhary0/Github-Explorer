@@ -1,5 +1,3 @@
-'use client';
-
 import { useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { encodeParams, decodeParams, updateQueryParams } from '@/utils/urlParams';
@@ -13,6 +11,8 @@ export const useSearchURLSync = () => {
   const isInitialized = useRef(false);
 
   useEffect(() => {
+    if (!searchParams) return;
+
     const encodedString = searchParams.get('encoded');
     if (encodedString) {
       const { query, type, sort, order, language } = decodeParams(encodedString);
