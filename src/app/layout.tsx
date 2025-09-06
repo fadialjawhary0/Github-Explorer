@@ -2,12 +2,14 @@
 
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
+import { Suspense } from 'react';
 import { SEARCH_TYPES } from '@/constants';
 import { searchStore } from '@/store';
 import { Analytics } from '@vercel/analytics/next';
 
 import Navbar from '@/components/layout/Navbar';
 import { ScrollToTop } from '@/components/ui';
+import Spinner from '@/components/ui/Spinner';
 
 import './globals.css';
 
@@ -20,11 +22,19 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     searchStore.setExactSearch(exactSearch);
   };
 
+  const navbarFallback = (
+    <div className="sticky top-2 mx-2 py-4 z-50 border border-border bg-navbar/70 backdrop-blur-sm rounded-lg">
+      <Spinner size="md" />
+    </div>
+  );
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider attribute="data-theme" defaultTheme="dark">
-          <Navbar onSearch={handleSearch} />
+          <Suspense fallback={navbarFallback}>
+            <Navbar onSearch={handleSearch} />
+          </Suspense>
           {children}
           <ScrollToTop />
         </ThemeProvider>
