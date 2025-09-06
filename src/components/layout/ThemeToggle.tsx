@@ -5,7 +5,7 @@ import { useTheme } from 'next-themes';
 import { Sun, Moon } from 'lucide-react';
 import { Tooltip } from 'react-tooltip';
 
-const ThemeToggle: React.FC = () => {
+const ThemeToggle: React.FC = React.memo(() => {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -34,7 +34,7 @@ const ThemeToggle: React.FC = () => {
   return (
     <div
       data-tooltip-id="theme-toggle"
-      data-tooltip-content={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+      data-tooltip-content={mounted ? (theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode') : ''}
       onClick={toggleTheme}
       className="cursor-pointer p-2 rounded-lg bg-card hover:bg-card-hover border border-border transition-colors duration-200 z-100 relative"
     >
@@ -42,6 +42,6 @@ const ThemeToggle: React.FC = () => {
       <Tooltip id="theme-toggle" className="!bg-foreground !text-background !text-xs !rounded-md !px-2 !py-1" />
     </div>
   );
-};
+});
 
 export default ThemeToggle;

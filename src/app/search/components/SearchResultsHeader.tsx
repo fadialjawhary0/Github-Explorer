@@ -1,7 +1,8 @@
-import HeaderSkeleton from './HeaderSkeleton';
 import { SearchStore } from '@/store';
 import { SEARCH_TYPES } from '@/constants';
-import RepositoryFiltersComponent from '@/components/filters/RepositoryFilters';
+
+import HeaderSkeleton from '../skeletons/HeaderSkeleton';
+import RepositoryFiltersComponent from '@/app/search/components/RepositoryFilters';
 
 interface SearchResultsHeaderProps {
   store: typeof SearchStore;
@@ -9,7 +10,7 @@ interface SearchResultsHeaderProps {
 }
 
 const SearchResultsHeader: React.FC<SearchResultsHeaderProps> = ({ store, totalCount }) => {
-  if (store.loading) return <HeaderSkeleton />;
+  if (store?.loading) return <HeaderSkeleton />;
 
   return (
     !!store?.results?.length && (

@@ -1,4 +1,4 @@
-import { Skeleton } from '../ui';
+import { Skeleton } from '../../../components/ui';
 
 const HeaderSkeleton: React.FC = () => (
   <div className="mb-6 flex flex-col gap-4">

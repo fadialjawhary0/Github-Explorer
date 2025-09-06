@@ -1,6 +1,7 @@
 import React from 'react';
+
 import { RepositoryFilters, SORT_OPTIONS, ORDER_OPTIONS, POPULAR_LANGUAGES } from '@/types/filters';
-import { Select } from '../ui';
+import { Select } from '../../../components/ui';
 import { RotateCcw } from 'lucide-react';
 
 interface RepositoryFiltersProps {
@@ -20,9 +21,9 @@ const RepositoryFiltersComponent: React.FC<RepositoryFiltersProps> = ({ filters,
         <div className="flex flex-col md:flex-row md:items-center gap-2 min-w-0">
           <label className="text-sm font-medium text-foreground whitespace-nowrap">Sort by:</label>
           <Select value={filters.sort} onChange={e => handleSortChange(e.target.value as RepositoryFilters['sort'])} className="w-full md:w-40">
-            {SORT_OPTIONS.map(option => (
-              <option key={option.value} value={option.value}>
-                {option.label}
+            {SORT_OPTIONS?.map(option => (
+              <option key={option?.value} value={option?.value}>
+                {option?.label}
               </option>
             ))}
           </Select>
@@ -31,9 +32,9 @@ const RepositoryFiltersComponent: React.FC<RepositoryFiltersProps> = ({ filters,
         <div className="flex flex-col md:flex-row md:items-center gap-2 min-w-0">
           <label className="text-sm font-medium text-foreground whitespace-nowrap">Order:</label>
           <Select value={filters.order} onChange={e => handleOrderChange(e.target.value as RepositoryFilters['order'])} className="w-full md:w-40">
-            {ORDER_OPTIONS.map(option => (
-              <option key={option.value} value={option.value}>
-                {option.label}
+            {ORDER_OPTIONS?.map(option => (
+              <option key={option?.value} value={option?.value}>
+                {option?.label}
               </option>
             ))}
           </Select>
@@ -43,7 +44,7 @@ const RepositoryFiltersComponent: React.FC<RepositoryFiltersProps> = ({ filters,
           <label className="text-sm font-medium text-foreground whitespace-nowrap">Language:</label>
           <Select value={filters.language} onChange={e => handleLanguageChange(e.target.value)} className="w-full md:w-40">
             <option value="">All Languages</option>
-            {POPULAR_LANGUAGES.map(language => (
+            {POPULAR_LANGUAGES?.map(language => (
               <option key={language} value={language}>
                 {language}
               </option>
